@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Result } from './app.types';
+
 
 @Component({
   selector: 'app-root',
@@ -6,33 +8,23 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  url: string;
-  query: string;
-  offset: number;
-  data: any;
-  constructor() {
-    this.query = '';
-    this.offset = 0;
-    this.url = `/api?query=${this.query}&offset=${this.offset}`
-    this.data = [];
-  }
-  updateQuery(query: string) {
-    this.query = query;
-    this.url = `/api?query=${this.query}&offset=${this.offset}`
-  }
-  async updateOffset(offset: number) {
-    if (offset <= 0) {
-      return;
-    }
-    this.offset = offset;
-    this.url = `/api?query=${this.query}&offset=${this.offset}`
-    await this.updateData();
-  }
+    query:string = '';
+    offset:number = 0;
+    url:string = `/api?query=${this.query}&offset=${this.offset*10}`
+    data:Result[] = [];
+
   async updateData(){
-    this.updateQuery(this.query);
+    this.url = `/api?query=${this.query}&offset=${this.offset*10}`
     const response = await fetch(this.url);
     const data = await response.json();
     this.data = data.results
   }
-  
+
+  updateOffset(offset:number){
+   if (offset < 0){
+    return
+    }
+    this.offset = offset;
+    this.updateData();
+  }
 }

@@ -1,0 +1,10 @@
+{
+    "/api": {
+      "target": "https://ddtb9e7ng3.execute-api.us-east-1.amazonaws.com",
+      "secure": true,
+      "changeOrigin": true,
+      "pathRewrite": {
+        "^/api": "/search"
+      }
+    }
+  }
